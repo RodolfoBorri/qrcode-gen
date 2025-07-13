@@ -21,7 +21,14 @@ public class QRCodeController {
 
     @PostMapping
     public ResponseEntity<QRCodeGenerateResponse> generateQRCode(@RequestBody QRCodeGenerateRequest request) {
-        qrCodeService.generateQRCode();
-        return null;
+
+        try{
+            QRCodeGenerateResponse qrCodeGenerateResponse = qrCodeService.generateAndUploadQRCode(request.text());
+
+            return ResponseEntity.ok(qrCodeGenerateResponse);
+
+        }catch (Exception e){
+            return ResponseEntity.internalServerError().build();
+        }
     }
 }
